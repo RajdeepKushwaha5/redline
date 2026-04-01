@@ -9,12 +9,6 @@ metadata:
   category: compliance
   risk_tier: high
   regulatory_frameworks: gdpr,soc2
-confidence: 0.8
-usage_count: 1
-success_count: 0
-failure_count: 1
-negative_examples:
-  - The policy has significant gaps and is NON-COMPLIANT with SOC2 requirements.
 ---
 
 # Compliance Check

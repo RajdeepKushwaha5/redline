@@ -20,7 +20,7 @@ skills:
   - compliance-check
   - audit-report
 
-tools: [cli, read, write, memory, policy-scanner]
+tools: [policy-scanner]
 
 agents:
   drafter:
@@ -40,21 +40,14 @@ runtime:
   timeout: 300
 
 compliance:
-  risk_level: high
-  data_classification: confidential
-  human_in_the_loop: true
-  regulatory_frameworks:
+  risk_tier: high
+  frameworks:
     - gdpr
     - soc2
 
-  review:
-    cadence: quarterly
-    type: full
-    reviewer: human
-
   supervision:
     review_cadence: quarterly
-    human_in_the_loop: true
+    human_in_the_loop: always
     escalation_triggers:
       - confidence_below: 0.7
       - action_type: policy_approval
@@ -67,7 +60,6 @@ compliance:
     audit_logging: true
     log_format: structured_json
     retention_period: 7y
-    retention_days: 2555
     log_contents:
       - prompts_and_responses
       - tool_calls
@@ -89,49 +81,9 @@ compliance:
     consent_required: false
     bias_testing: false
 
-  segregation_of_duties:
-    roles:
-      - id: maker
-        description: Drafts and proposes policy changes
-        permissions: [create, submit]
-      - id: checker
-        description: Reviews and approves or rejects policy drafts
-        permissions: [review, approve, reject]
-      - id: executor
-        description: Validates approved policies against regulatory frameworks
-        permissions: [validate, certify]
-      - id: auditor
-        description: Audits the full process and maintains compliance records
-        permissions: [audit, report]
-
-    conflicts:
-      - [maker, checker]
-      - [maker, auditor]
-      - [executor, maker]
-      - [executor, auditor]
-
-    assignments:
-      drafter: [maker]
-      reviewer: [checker]
-      compliance-checker: [executor]
-      auditor: [auditor]
-
-    isolation:
-      state: full
-      credentials: separate
-
-    handoffs:
-      - action: policy_update
-        required_roles: [maker, checker, executor]
-        approval_required: true
-      - action: compliance_certification
-        required_roles: [executor, auditor]
-        approval_required: true
-      - action: policy_retirement
-        required_roles: [maker, checker, auditor]
-        approval_required: true
-
-    enforcement: strict
+  # NOTE: segregation_of_duties is defined in DUTIES.md (canonical source)
+  # and enforced by gitclaw at runtime. The gitagent schema v0.1.7 does not
+  # yet include SOD in the compliance_config schema, though the spec docs do.
 
 tags:
   - compliance

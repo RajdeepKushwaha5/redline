@@ -7,6 +7,7 @@ name: policy-scanner
 description: "Scans all policy files in the policies/ directory and produces a summary report including metadata status, last modified dates, and detected issues."
 
 input_schema:
+  type: object
   properties:
     directory:
       type: string
@@ -14,5 +15,7 @@ input_schema:
   required: []
 
 implementation:
-  script: policy-scanner.sh
-  runtime: sh
+  type: script
+  path: policy-scanner.sh
+  script: policy-scanner.sh   # gitclaw compat alias
+  runtime: bash

@@ -13,6 +13,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@open-gitagent/gitagent": "^0.1.7",
     "gitclaw": "^1.1.8"
   }
 }
