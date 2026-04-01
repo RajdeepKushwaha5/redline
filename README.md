@@ -105,13 +105,13 @@ No agent can perform conflicting roles. The conflict matrix is enforced at every
 
 ## What It Detects (Demo Policies)
 
-The included policies contain **real compliance gaps** to demonstrate detection:
+The included policies contain **intentional compliance gaps** to demonstrate detection. Run gap-analysis or compliance-check on any of them to see redline in action:
 
-| Policy | Key Gaps |
-|---|---|
-| `data-privacy.md` | Missing GDPR Art. 22 (automated decisions), Art. 20 (portability), Art. 37-39 (DPO), Art. 35 (DPIA) |
-| `access-control.md` | MFA only "recommended" (SOC2 requires mandatory), weak password requirements |
-| `acceptable-use.md` | Previously contradicted `access-control.md` on BYOD rules |
+| Policy | Version | Remaining Gaps (for demo) |
+|---|---|---|
+| `data-privacy.md` | v1.3 | Missing GDPR Art. 22 (automated decisions), Art. 20 (portability), Art. 37-39 (DPO), Art. 35 (DPIA) |
+| `access-control.md` | v1.6 | Missing breach notification timeline (Art. 33), no DPIA trigger criteria |
+| `acceptable-use.md` | v2.1 | No data classification requirements, no incident reporting obligations |
 
 ---
 
