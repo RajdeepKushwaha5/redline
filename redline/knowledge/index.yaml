@@ -1,0 +1,32 @@
+documents:
+  # GDPR Framework
+  - path: frameworks/gdpr/requirements.md
+    tags: [gdpr, requirements, eu, data-protection]
+    priority: high
+    always_load: true
+  - path: frameworks/gdpr/checklist.md
+    tags: [gdpr, checklist, validation]
+    priority: high
+
+  # SOC 2 Framework
+  - path: frameworks/soc2/requirements.md
+    tags: [soc2, trust-services, aicpa]
+    priority: high
+    always_load: true
+  - path: frameworks/soc2/checklist.md
+    tags: [soc2, checklist, validation]
+    priority: high
+
+  # Policy Templates
+  - path: templates/data-privacy-policy.md
+    tags: [template, data-privacy, gdpr]
+    priority: medium
+  - path: templates/acceptable-use-policy.md
+    tags: [template, acceptable-use, soc2]
+    priority: medium
+  - path: templates/incident-response-policy.md
+    tags: [template, incident-response, soc2]
+    priority: medium
+  - path: templates/access-control-policy.md
+    tags: [template, access-control, soc2]
+    priority: medium

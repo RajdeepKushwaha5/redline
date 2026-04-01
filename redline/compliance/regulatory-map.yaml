@@ -1,0 +1,32 @@
+# Regulatory Map
+#
+# Maps organizational policy types to applicable regulatory frameworks
+# and their specific requirements.
+
+regulatory_map:
+  data-privacy:
+    frameworks:
+      - id: gdpr
+        requirements: [R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12]
+        checklist: knowledge/frameworks/gdpr/checklist.md
+      - id: soc2
+        requirements: [CC6, CC7]
+        checklist: knowledge/frameworks/soc2/checklist.md
+        sections: [Privacy]
+
+  acceptable-use:
+    frameworks:
+      - id: soc2
+        requirements: [CC1, CC2, CC6]
+        checklist: knowledge/frameworks/soc2/checklist.md
+        sections: [Security]
+
+  access-control:
+    frameworks:
+      - id: soc2
+        requirements: [CC5, CC6, CC7, CC8]
+        checklist: knowledge/frameworks/soc2/checklist.md
+        sections: [Security, Confidentiality]
+      - id: gdpr
+        requirements: [R8, R9]
+        checklist: knowledge/frameworks/gdpr/checklist.md

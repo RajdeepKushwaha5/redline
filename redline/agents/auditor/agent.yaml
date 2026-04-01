@@ -1,0 +1,26 @@
+spec_version: "0.1.0"
+name: auditor
+version: 0.1.0
+description: >
+  Audit logging sub-agent. Creates immutable audit records for every policy
+  action. Operates as the 'auditor' role in the segregation of duties model.
+
+model:
+  preferred: google:gemini-2.5-flash
+  fallback: google:gemini-2.0-flash
+  temperature: 0.0
+
+skills:
+  - name: audit-report
+    path: ../../skills/audit-report
+
+tools:
+  builtin:
+    - read
+    - write
+    - cli
+
+sod:
+  role: auditor
+  can_approve_own: false
+  cannot_be_same_as: [maker, executor]

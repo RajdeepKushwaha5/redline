@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "gitclaw --dir ./redline",
+    "test": "gitclaw --dir ./redline -p \"Run a gap analysis on policies/data-privacy.md against GDPR requirements\"",
+    "scan": "gitclaw --dir ./redline -p \"Use the policy-scanner tool to scan all policies in the policies/ directory\"",
+    "workflow": "gitclaw --dir ./redline -p \"Run the policy-update-flow workflow on policies/access-control.md\""
   },
   "keywords": [],
   "author": "",

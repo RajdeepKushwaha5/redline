@@ -1,0 +1,25 @@
+spec_version: "0.1.0"
+name: reviewer
+version: 0.1.0
+description: >
+  Policy review sub-agent. Evaluates drafted policies across five quality
+  dimensions and renders an approval decision. Operates as the 'checker' role
+  in the segregation of duties model.
+
+model:
+  preferred: google:gemini-2.5-flash
+  fallback: google:gemini-2.0-flash
+  temperature: 0.1
+
+skills:
+  - name: review-policy
+    path: ../../skills/review-policy
+
+tools:
+  builtin:
+    - read
+
+sod:
+  role: checker
+  can_approve_own: false
+  cannot_be_same_as: [maker]

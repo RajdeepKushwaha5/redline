@@ -1,0 +1,125 @@
+# Policy Update Workflow
+#
+# SkillsFlow definition for the full policy update lifecycle.
+# Enforces segregation of duties: maker → checker → executor → auditor.
+
+name: policy-update-flow
+version: 0.1.0
+description: >
+  End-to-end policy update workflow. Runs gap analysis, drafts updates,
+  reviews quality, validates compliance, and logs an immutable audit record.
+  Each step is assigned to a specific SOD role to prevent conflicts.
+
+trigger:
+  - manual
+  - on_command: "update-policy"
+
+inputs:
+  policy_path:
+    type: string
+    description: Path to the policy file to update (e.g., policies/data-privacy.md)
+    required: true
+  framework:
+    type: string
+    description: Regulatory framework to validate against (gdpr or soc2)
+    required: true
+    enum: [gdpr, soc2]
+
+steps:
+  - id: analyze-gaps
+    name: Gap Analysis
+    agent: compliance-checker
+    skill: gap-analysis
+    sod_role: executor
+    inputs:
+      policy: "{{ inputs.policy_path }}"
+      framework: "{{ inputs.framework }}"
+    outputs:
+      findings: gap_report
+    description: >
+      Compare the current policy against framework requirements and produce
+      a severity-rated findings table.
+
+  - id: draft-update
+    name: Draft Policy Update
+    agent: drafter
+    skill: draft-policy
+    sod_role: maker
+    depends_on: [analyze-gaps]
+    inputs:
+      policy: "{{ inputs.policy_path }}"
+      findings: "{{ steps.analyze-gaps.outputs.gap_report }}"
+      framework: "{{ inputs.framework }}"
+    outputs:
+      updated_policy: drafted_policy
+      change_summary: change_table
+    description: >
+      Apply REDLINE annotations to the policy addressing each gap finding.
+      Produce a change summary table.
+
+  - id: review
+    name: Review Policy
+    agent: reviewer
+    skill: review-policy
+    sod_role: checker
+    depends_on: [draft-update]
+    inputs:
+      policy: "{{ steps.draft-update.outputs.drafted_policy }}"
+      change_summary: "{{ steps.draft-update.outputs.change_table }}"
+    outputs:
+      decision: review_decision
+      scorecard: review_scorecard
+    description: >
+      Evaluate the drafted policy across five quality dimensions.
+      Render APPROVED, APPROVED WITH COMMENTS, or REJECTED.
+    on_rejected:
+      goto: draft-update
+      max_retries: 2
+
+  - id: compliance-check
+    name: Compliance Validation
+    agent: compliance-checker
+    skill: compliance-check
+    sod_role: executor
+    depends_on: [review]
+    condition: "{{ steps.review.outputs.review_decision != 'REJECTED' }}"
+    inputs:
+      policy: "{{ steps.draft-update.outputs.drafted_policy }}"
+      framework: "{{ inputs.framework }}"
+    outputs:
+      scorecard: compliance_scorecard
+      pass_rate: compliance_pass_rate
+    description: >
+      Run the policy against the full regulatory checklist and produce
+      a compliance scorecard with pass/fail/partial per item.
+
+  - id: audit-log
+    name: Audit Record
+    agent: auditor
+    skill: audit-report
+    sod_role: auditor
+    depends_on: [compliance-check]
+    inputs:
+      policy: "{{ inputs.policy_path }}"
+      framework: "{{ inputs.framework }}"
+      gap_report: "{{ steps.analyze-gaps.outputs.gap_report }}"
+      review_decision: "{{ steps.review.outputs.review_decision }}"
+      review_scorecard: "{{ steps.review.outputs.review_scorecard }}"
+      compliance_scorecard: "{{ steps.compliance-check.outputs.compliance_scorecard }}"
+      actors:
+        maker: drafter
+        checker: reviewer
+        executor: compliance-checker
+        auditor: auditor
+    outputs:
+      audit_entry: audit_record
+    description: >
+      Append an immutable audit record to memory/MEMORY.md documenting
+      every step, actor, and outcome. Verify SOD compliance.
+
+outputs:
+  gap_report: "{{ steps.analyze-gaps.outputs.gap_report }}"
+  updated_policy: "{{ steps.draft-update.outputs.drafted_policy }}"
+  review_decision: "{{ steps.review.outputs.review_decision }}"
+  compliance_scorecard: "{{ steps.compliance-check.outputs.compliance_scorecard }}"
+  audit_record: "{{ steps.audit-log.outputs.audit_record }}"

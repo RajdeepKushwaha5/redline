@@ -1,0 +1,38 @@
+# Default Configuration
+
+model:
+  preferred: google:gemini-2.5-flash
+  fallback: google:gemini-2.0-flash
+  temperature: 0.1
+
+frameworks:
+  enabled:
+    - gdpr
+    - soc2
+
+policies:
+  directory: policies/
+  file_pattern: "*.md"
+
+compliance:
+  enforcement: strict
+  sod_enabled: true
+  audit_required: true
+
+output:
+  format: markdown
+  severity_levels: [CRITICAL, HIGH, MEDIUM, LOW]
+  scorecard_symbols:
+    pass: "✅"
+    fail: "❌"
+    partial: "⚠️"
+
+review:
+  dimensions:
+    - clarity
+    - completeness
+    - consistency
+    - regulatory_accuracy
+    - structural_integrity
+  decisions: [APPROVED, APPROVED WITH COMMENTS, REJECTED]
+  max_review_cycles: 2

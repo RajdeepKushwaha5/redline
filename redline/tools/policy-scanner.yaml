@@ -1,0 +1,18 @@
+# Policy Scanner Tool
+#
+# Custom tool definition for scanning all policies in the repository
+# and producing a summary status report.
+
+name: policy-scanner
+description: "Scans all policy files in the policies/ directory and produces a summary report including metadata status, last modified dates, and detected issues."
+
+input_schema:
+  properties:
+    directory:
+      type: string
+      description: "Directory to scan for policy files (default: policies/)"
+  required: []
+
+implementation:
+  script: policy-scanner.sh
+  runtime: sh

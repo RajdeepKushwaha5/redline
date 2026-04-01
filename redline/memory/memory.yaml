@@ -1,0 +1,22 @@
+# Memory Configuration
+
+type: file
+path: MEMORY.md
+format: markdown
+mode: append-only
+
+retention:
+  period: 7 years
+  reason: Regulatory compliance audit trail
+
+schema:
+  entry_fields:
+    - timestamp     # ISO 8601 UTC
+    - action        # gap-analysis | draft | review | compliance-check | audit
+    - actor         # agent name (drafter, reviewer, compliance-checker, auditor)
+    - sod_role      # maker | checker | executor | auditor
+    - policy        # path to policy file
+    - framework     # gdpr | soc2
+    - outcome       # result summary
+    - sod_verified  # true | false
+    - details       # freeform notes

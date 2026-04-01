@@ -1,0 +1,27 @@
+spec_version: "0.1.0"
+name: compliance-checker
+version: 0.1.0
+description: >
+  Compliance validation sub-agent. Runs policies against regulatory checklists
+  and produces compliance scorecards. Operates as the 'executor' role in the
+  segregation of duties model.
+
+model:
+  preferred: google:gemini-2.5-flash
+  fallback: google:gemini-2.0-flash
+  temperature: 0.0
+
+skills:
+  - name: compliance-check
+    path: ../../skills/compliance-check
+  - name: gap-analysis
+    path: ../../skills/gap-analysis
+
+tools:
+  builtin:
+    - read
+
+sod:
+  role: executor
+  can_approve_own: false
+  cannot_be_same_as: [maker, auditor]

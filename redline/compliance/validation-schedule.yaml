@@ -1,0 +1,41 @@
+# Validation Schedule
+#
+# Defines when policies must be re-validated against their frameworks.
+
+schedule:
+  default:
+    frequency: quarterly
+    next_run: "2026-07-01"
+    notify: compliance-team@acmecorp.com
+
+  policies:
+    data-privacy:
+      frequency: quarterly
+      frameworks: [gdpr, soc2]
+      priority: critical
+      last_validated: "2026-04-01"
+
+    acceptable-use:
+      frequency: semi-annually
+      frameworks: [soc2]
+      priority: high
+      last_validated: "2026-04-01"
+
+    access-control:
+      frequency: quarterly
+      frameworks: [soc2, gdpr]
+      priority: critical
+      last_validated: "2026-04-01"
+
+  triggers:
+    - event: regulation_update
+      action: immediate_revalidation
+      description: Re-validate all affected policies when a framework is updated
+
+    - event: policy_change
+      action: post_change_validation
+      description: Validate the changed policy within 24 hours of approval
+
+    - event: incident
+      action: targeted_review
+      description: Review policies related to the incident type

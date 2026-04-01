@@ -1,0 +1,26 @@
+spec_version: "0.1.0"
+name: drafter
+version: 0.1.0
+description: >
+  Policy drafting sub-agent. Writes and updates compliance policies based on
+  gap analysis findings and regulatory templates. Operates as the 'maker' role
+  in the segregation of duties model.
+
+model:
+  preferred: google:gemini-2.5-flash
+  fallback: google:gemini-2.0-flash
+  temperature: 0.2
+
+skills:
+  - name: draft-policy
+    path: ../../skills/draft-policy
+
+tools:
+  builtin:
+    - read
+    - write
+
+sod:
+  role: maker
+  can_approve_own: false
+  requires_review_by: [checker]

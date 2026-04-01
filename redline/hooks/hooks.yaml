@@ -1,0 +1,24 @@
+# Hooks Configuration
+#
+# Hooks run automatically at specific lifecycle events.
+# See gitclaw docs for supported events: on_session_start, pre_tool_use,
+# post_response, on_error.
+
+hooks:
+  on_session_start:
+    - name: load-policies
+      description: Load all active policies into context at session start
+      script: load-policies.sh
+      timeout: 10s
+
+  pre_tool_use:
+    - name: validate-metadata
+      description: Ensure written policy files retain required metadata headers
+      script: validate-metadata.sh
+      timeout: 5s
+
+  on_error:
+    - name: log-error
+      description: Append error details to audit log
+      script: log-error.sh
+      timeout: 5s
