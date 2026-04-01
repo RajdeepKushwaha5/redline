@@ -5,6 +5,7 @@
 [![gitagent](https://img.shields.io/badge/gitagent-v0.1.0-blue)](https://github.com/open-gitagent/gitagent)
 [![clawless](https://img.shields.io/badge/clawless-browser%20ready-green)](https://play.clawless.io)
 [![frameworks](https://img.shields.io/badge/frameworks-GDPR%20%7C%20SOC2-orange)](./knowledge/frameworks)
+[![CI](https://github.com/RajdeepKushwaha5/redline/actions/workflows/validate.yml/badge.svg)](https://github.com/RajdeepKushwaha5/redline/actions/workflows/validate.yml)
 [![license](https://img.shields.io/badge/license-MIT-lightgrey)](#)
 
 > Built for the [gitagent hackathon](https://github.com/open-gitagent/gitagent) — defined with [gitagent](https://github.com/open-gitagent/gitagent), powered by [gitclaw](https://github.com/open-gitagent/gitclaw), deployable in-browser via [clawless](https://play.clawless.io).
@@ -64,6 +65,24 @@ The reviewer agent reads all active policies simultaneously and flags contradict
 
 ### 6. Immutable Audit Trail
 Every workflow step — every gap analysis, draft, review decision, and compliance score — is logged to `memory/MEMORY.md` as an append-only record with timestamps, agent IDs, and decision rationale. 7-year retention, structured JSON.
+
+---
+
+## Policies as Code — CI/CD Integration
+
+Every push to `main` that touches `policies/`, `skills/`, `knowledge/`, or `agent.yaml` triggers an automated compliance pipeline via GitHub Actions:
+
+```
+git push  →  GitHub Actions
+              ├── gitagent validate --compliance   (0 errors = green)
+              ├── gitagent info                    (agent summary printed)
+              ├── version header check per policy  (no undated policy survives a PR)
+              └── framework checklist presence     (GDPR + SOC2 checklists must exist)
+```
+
+This means a policy with a missing version header or a broken agent spec **cannot be merged to main**. The policies in this repo are held to the same standard as application code.
+
+See [`.github/workflows/validate.yml`](.github/workflows/validate.yml) for the full pipeline definition.
 
 ---
 

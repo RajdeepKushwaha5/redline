@@ -1,0 +1,84 @@
+name: Policy Compliance CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'policies/**'
+      - 'agent.yaml'
+      - 'skills/**'
+      - 'knowledge/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'policies/**'
+      - 'agent.yaml'
+      - 'skills/**'
+      - 'knowledge/**'
+
+jobs:
+  validate-agent:
+    name: Validate Agent Spec
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate gitagent spec
+        run: npx gitagent validate --compliance --dir .
+
+      - name: Print agent info
+        run: npx gitagent info --dir .
+
+  validate-policies:
+    name: Check Policy Metadata
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check all policies have version headers
+        run: |
+          echo "Checking policy version headers..."
+          MISSING=0
+          for f in policies/*.md; do
+            if ! grep -q "^## Version\|^version:\|^Version:" "$f"; then
+              echo "❌ Missing version header: $f"
+              MISSING=$((MISSING+1))
+            else
+              echo "✅ $f"
+            fi
+          done
+          if [ $MISSING -gt 0 ]; then
+            echo ""
+            echo "ERROR: $MISSING policy file(s) missing version metadata."
+            exit 1
+          fi
+          echo ""
+          echo "All policies have version headers."
+
+      - name: Check knowledge framework checklists exist
+        run: |
+          echo "Checking framework checklists..."
+          for FRAMEWORK in gdpr soc2; do
+            CHECKLIST="knowledge/frameworks/$FRAMEWORK/checklist.md"
+            REQUIREMENTS="knowledge/frameworks/$FRAMEWORK/requirements.md"
+            if [ ! -f "$CHECKLIST" ]; then
+              echo "❌ Missing: $CHECKLIST"
+              exit 1
+            fi
+            if [ ! -f "$REQUIREMENTS" ]; then
+              echo "❌ Missing: $REQUIREMENTS"
+              exit 1
+            fi
+            echo "✅ $FRAMEWORK: checklist + requirements present"
+          done
