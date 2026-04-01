@@ -2,7 +2,7 @@
 
 **AI-powered policy governance that lives in your git repo.**
 
-> Built for the [gitagent hackathon](https://github.com/open-gitagent/gitagent) — defined with [gitagent](https://github.com/open-gitagent/gitagent), powered by [gitclaw](https://github.com/open-gitagent/gitclaw).
+> Built for the [gitagent hackathon](https://github.com/open-gitagent/gitagent) — defined with [gitagent](https://github.com/open-gitagent/gitagent), powered by [gitclaw](https://github.com/open-gitagent/gitclaw), deployable in-browser via [clawless](https://play.clawless.io).
 
 ---
 
@@ -31,6 +31,8 @@ No agent can perform conflicting roles. The conflict matrix is enforced at every
 
 ## Quick Start
 
+### Option A — Local (CLI)
+
 ```bash
 # Install dependencies
 npm install
@@ -50,6 +52,14 @@ npx gitclaw --dir ./redline
 npx gitclaw --dir ./redline -p "Run a gap analysis on policies/data-privacy.md against GDPR"
 ```
 
+### Option B — Browser (clawless, zero install)
+
+1. Go to **[play.clawless.io](https://play.clawless.io)**
+2. Select the **gitclaw** template
+3. Enter GitHub repo: `RajdeepKushwaha5/redline`
+4. Set environment variable: `GOOGLE_AI_API_KEY=<your-gemini-api-key>`
+5. Click **Boot** — the agent starts entirely in your browser, no Node.js install needed
+
 ## Demo
 
 The included policies have **intentional compliance gaps** that showcase redline's detection capabilities:
@@ -68,8 +78,10 @@ npx gitclaw --dir ./redline -p "Run the policy-update-flow workflow for policies
 | Component | Choice |
 |-----------|--------|
 | Agent spec | [gitagent v0.1.0](https://github.com/open-gitagent/gitagent) |
-| Runtime | [gitclaw](https://github.com/open-gitagent/gitclaw) |
+| Runtime (CLI) | [gitclaw](https://github.com/open-gitagent/gitclaw) |
+| Runtime (browser) | [clawless](https://play.clawless.io) via WebContainers |
 | Model | Google Gemini 2.5 Flash (free tier) |
+| Hooks & Tools | Node.js only — WebContainer compatible |
 | Frameworks | GDPR (22-item checklist) + SOC 2 (34-item checklist) |
 
 ## Project Structure
