@@ -1,6 +1,6 @@
 {
-  "name": "hackculture01",
-  "version": "1.0.0",
+  "name": "redline",
+  "version": "0.1.0",
   "main": "index.js",
   "scripts": {
     "start": "gitclaw --dir ./redline",
