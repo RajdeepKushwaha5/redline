@@ -67,6 +67,14 @@ Every workflow step — every gap analysis, draft, review decision, and complian
 
 ---
 
+## Demo Video
+
+[![Watch the demo](https://img.shields.io/badge/demo-Google%20Drive-blue)](https://drive.google.com/file/d/1aW-8jwZDLajvxq_FN8oO3VLGLx1KG1EH/view?usp=sharing)
+
+[▶ Watch the full demo (Google Drive)](https://drive.google.com/file/d/1aW-8jwZDLajvxq_FN8oO3VLGLx1KG1EH/view?usp=sharing)
+
+---
+
 ## How It Works
 
 ```
