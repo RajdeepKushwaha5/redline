@@ -58,6 +58,7 @@ compliance:
 
   recordkeeping:
     audit_logging: true
+    retention_days: 2555
     log_format: structured_json
     retention_period: 7y
     log_contents:

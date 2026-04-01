@@ -7,15 +7,15 @@
 hooks:
   on_session_start:
     - description: Load all active policies into context at session start
-      script: load-policies.js
+      script: hooks/load-policies.js
       timeout: 10
 
   pre_tool_use:
     - description: Ensure written policy files retain required metadata headers
-      script: validate-metadata.js
+      script: hooks/validate-metadata.js
       timeout: 5
 
   on_error:
     - description: Append error details to audit log
-      script: log-error.js
+      script: hooks/log-error.js
       timeout: 5
