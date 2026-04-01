@@ -16,6 +16,6 @@ input_schema:
 
 implementation:
   type: script
-  path: policy-scanner.sh
-  script: policy-scanner.sh   # gitclaw compat alias
-  runtime: bash
+  path: policy-scanner.js
+  script: policy-scanner.js   # gitclaw compat alias
+  runtime: node
