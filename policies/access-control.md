@@ -1,8 +1,8 @@
 # Access Control Policy
 
-**Version:** 1.5
+**Version:** 1.6
 **Effective Date:** June 1, 2023
-**Last Reviewed:** June 1, 2023
+**Last Reviewed:** April 1, 2026
 **Owner:** Information Security
 **Approved By:** CISO
 
@@ -30,26 +30,30 @@ This policy applies to all employees, contractors, and third parties who access 
 ## 4. Authentication
 
 ### 4.1 Passwords
-- Minimum length: 8 characters
-- Must contain at least one uppercase letter and one number
-- Must be changed every 90 days
-- Last 4 passwords cannot be reused
+- Minimum length: 12 characters
+- Must contain at least one uppercase letter, one number, and one special character
+- Must be changed every 90 days (or 365 days when MFA is enabled)
+- Last 12 passwords cannot be reused
+- Account lockout after 5 failed attempts for 30 minutes
 
 ### 4.2 Multi-Factor Authentication
-- MFA is recommended for remote access
-- MFA is required for administrative accounts
-- Users should enable MFA where available
+- **MFA is required for all remote access**
+- MFA is required for all administrative and privileged accounts
+- MFA is required for accessing Confidential and Restricted data
+- Approved MFA methods: hardware security keys (preferred), authenticator apps (TOTP-based), push notifications
+- SMS-based MFA is not approved for privileged or sensitive access
 
 ## 5. Access Reviews
 
-- Manager access reviews must be conducted annually
-- Privileged access reviews must be conducted annually
-- Findings from reviews should be addressed in a timely manner
+- Privileged access reviews must be conducted **quarterly**
+- Manager access reviews must be conducted **semi-annually**
+- Service account reviews must be conducted quarterly
+- Findings from reviews must be remediated within 30 days (critical) or 90 days (standard)
 
 ## 6. Remote Access
 
 - Remote access is available using the company VPN
-- **Personal devices may access company resources over VPN with manager approval**
+- Personal devices may access company resources over VPN with manager and CISO approval, subject to MDM enrollment
 - Remote sessions should be from secure network locations
 - Split tunneling is permitted with IT approval
 

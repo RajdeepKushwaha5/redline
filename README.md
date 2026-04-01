@@ -1,84 +1,223 @@
 # redline
 
-**AI-powered policy governance that lives in your git repo.**
+**AI-powered policy governance — where every compliance gap becomes a git diff.**
+
+[![gitagent](https://img.shields.io/badge/gitagent-v0.1.0-blue)](https://github.com/open-gitagent/gitagent)
+[![clawless](https://img.shields.io/badge/clawless-browser%20ready-green)](https://play.clawless.io)
+[![frameworks](https://img.shields.io/badge/frameworks-GDPR%20%7C%20SOC2-orange)](./knowledge/frameworks)
+[![license](https://img.shields.io/badge/license-MIT-lightgrey)](#)
 
 > Built for the [gitagent hackathon](https://github.com/open-gitagent/gitagent) — defined with [gitagent](https://github.com/open-gitagent/gitagent), powered by [gitclaw](https://github.com/open-gitagent/gitclaw), deployable in-browser via [clawless](https://play.clawless.io).
 
 ---
 
-redline turns scattered, outdated company policies into version-controlled, auditable, regulation-compliant documents. It enforces **segregation of duties** across four specialized sub-agents — no single agent can draft, review, validate, and audit the same policy change.
+## The Problem
+
+Every organization has policies — data privacy, access control, acceptable use — but most of them are:
+
+- Written once, never updated
+- Stored in a shared drive no one checks
+- Manually verified once a year, by a consultant, using a spreadsheet
+- **Out of sync with each other** — one policy allows BYOD; another bans it
+- Not traceable — no one knows who approved what, or when
+
+When a regulator asks *"show me your GDPR compliance"*, the answer is usually a PDF from three years ago that no one has verified against the actual regulation.
+
+**redline fixes this.**
+
+---
 
 ## What It Does
 
-| Skill | Description |
-|-------|-------------|
-| **Gap Analysis** | Compare any policy against GDPR / SOC 2 requirements and produce severity-rated findings |
-| **Draft Policy** | Write or update policy sections with `REDLINE` change annotations |
-| **Review Policy** | 5-dimension quality scorecard (clarity, completeness, consistency, regulatory accuracy, actionability) |
-| **Compliance Check** | Validate against regulatory checklists — structured pass/fail/partial scorecard |
-| **Audit Report** | Immutable audit trail for every change in the policy lifecycle |
+redline is a multi-agent AI governance system that treats policies like code — version-controlled, automatically validated, and auditable. It enforces **segregation of duties** so no single agent can create, review, and certify its own work.
+
+The name comes from **redlining a document** — the legal practice of marking proposed changes in red ink. Every policy update redline produces is annotated so a human reviewer can see exactly what changed and why.
+
+## Use Cases
+
+### 1. GDPR Gap Analysis in Seconds
+You have a data privacy policy. Is it actually GDPR-compliant? redline reads the policy, checks it against a 22-item GDPR checklist, and returns a structured findings report with severity ratings (CRITICAL / HIGH / MEDIUM) and specific article citations — no lawyer needed.
+
+```
+Run gap-analysis on policies/data-privacy.md against the GDPR framework
+```
+
+### 2. SOC2 Compliance Scorecard
+Preparing for a SOC2 audit? redline validates your access control policy against all 34 SOC2 Security criteria and produces a ✅/❌/⚠️ scorecard you can hand directly to an auditor.
+
+```
+Run compliance-check on policies/access-control.md against SOC2
+```
+
+### 3. Automated Policy Drafting with Change Annotations
+Gap analysis found 6 CRITICAL issues in your data privacy policy. Instead of manually rewriting it, the drafter agent fixes them and annotates every change with `<!-- REDLINE: ... -->` comments so a human reviewer can trace each modification to its regulatory requirement.
+
+```
+Draft fixes for the CRITICAL gaps found in policies/data-privacy.md
+```
+
+### 4. Policy Review with Segregation of Duties
+The same agent that wrote a policy cannot approve it. redline enforces a four-agent SOD chain — **Drafter → Reviewer → Compliance Checker → Auditor** — and the reviewer scores across five dimensions before rendering a formal APPROVED / REJECTED decision.
+
+### 5. Cross-Policy Contradiction Detection
+The reviewer agent reads all active policies simultaneously and flags contradictions. For example: one policy allows BYOD with manager approval; another bans personal devices entirely. These contradictions are caught before they become a compliance incident.
+
+### 6. Immutable Audit Trail
+Every workflow step — every gap analysis, draft, review decision, and compliance score — is logged to `memory/MEMORY.md` as an append-only record with timestamps, agent IDs, and decision rationale. 7-year retention, structured JSON.
+
+---
+
+## How It Works
+
+```
+policies/ (git repo)
+      │
+      ▼
+compliance-checker  →  gap findings (22 GDPR / 34 SOC2 items)
+      │
+      ▼
+drafter             →  updated policy draft with REDLINE annotations
+      │
+      ▼
+reviewer            →  APPROVED / REJECTED (5-dimension scorecard)
+      │
+      ▼
+compliance-checker  →  final regulatory scorecard
+      │
+      ▼
+auditor             →  immutable entry in memory/MEMORY.md
+```
+
+---
 
 ## Segregation of Duties
 
-| Role | Agent | Responsibility |
-|------|-------|----------------|
-| Maker | `drafter` | Writes policy content |
-| Checker | `reviewer` | Evaluates and approves/rejects |
-| Executor | `compliance-checker` | Validates against frameworks |
-| Auditor | `auditor` | Creates immutable audit records |
-
 No agent can perform conflicting roles. The conflict matrix is enforced at every workflow step.
+
+| Agent | SOD Role | Can Do | Cannot Do |
+|---|---|---|---|
+| `drafter` | **Maker** | Write and modify policies | Review or approve own work |
+| `reviewer` | **Checker** | Evaluate and approve/reject | Draft policies |
+| `compliance-checker` | **Executor** | Validate against checklists | Draft or approve |
+| `auditor` | **Auditor** | Create immutable audit records | Draft, review, or execute |
+
+---
+
+## What It Detects (Demo Policies)
+
+The included policies contain **real compliance gaps** to demonstrate detection:
+
+| Policy | Key Gaps |
+|---|---|
+| `data-privacy.md` | Missing GDPR Art. 22 (automated decisions), Art. 20 (portability), Art. 37-39 (DPO), Art. 35 (DPIA) |
+| `access-control.md` | MFA only "recommended" (SOC2 requires mandatory), weak password requirements |
+| `acceptable-use.md` | Previously contradicted `access-control.md` on BYOD rules |
+
+---
 
 ## Quick Start
 
 ### Option A — Local (CLI)
 
 ```bash
-# Install dependencies
+git clone https://github.com/RajdeepKushwaha5/redline.git
+cd redline
 npm install
 
-# Set your API key
-export GOOGLE_API_KEY="your-gemini-api-key"
-export GEMINI_API_KEY="your-gemini-api-key"
+# Free Gemini API key: https://aistudio.google.com/apikey
+export GOOGLE_API_KEY="your-key-here"
+export GEMINI_API_KEY="your-key-here"
 
-# Validate the agent
-npx gitagent validate --dir ./redline
-npx gitagent info --dir ./redline
+# Validate the agent spec (should show all green)
+npx gitagent validate --compliance --dir .
 
-# Run the agent
-npx gitclaw --dir ./redline
+# Start the interactive agent
+npx gitclaw
 
-# One-shot: gap analysis on the demo data
-npx gitclaw --dir ./redline -p "Run a gap analysis on policies/data-privacy.md against GDPR"
+# Or run a task directly
+npx gitclaw -p "Run gap-analysis on policies/data-privacy.md against the GDPR framework"
 ```
 
-### Option B — Browser (clawless, zero install)
+### Option B — Browser (zero install via [clawless](https://play.clawless.io))
 
 1. Go to **[play.clawless.io](https://play.clawless.io)**
-2. Select the **gitclaw** template
-3. Enter GitHub repo: `RajdeepKushwaha5/redline`
-4. Set environment variable: `GOOGLE_AI_API_KEY=<your-gemini-api-key>`
-5. Click **Boot** — the agent starts entirely in your browser, no Node.js install needed
+2. Enter repo: `RajdeepKushwaha5/redline`
+3. Under **API Keys & Config**, add:
+   - `GOOGLE_AI_API_KEY` = your Gemini key
+   - `GITHUB_TOKEN` = GitHub personal access token (repo read scope)
+4. Click **Save & Connect**
 
-## Demo
+Boots entirely in your browser — no install, no server, fully sandboxed via WebAssembly.
 
-The included policies have **intentional compliance gaps** that showcase redline's detection capabilities:
+---
 
-- `data-privacy.md` — missing GDPR Art. 22 (automated decisions), Art. 20 (portability), vague retention periods
-- `acceptable-use.md` vs `access-control.md` — contradictory BYOD rules (one bans, one permits)
-- `access-control.md` — weak passwords (8 chars), MFA only "recommended", annual-only reviews
+## Example Prompts
 
-Run the full workflow to see all four agents collaborate:
-```bash
-npx gitclaw --dir ./redline -p "Run the policy-update-flow workflow for policies/data-privacy.md against gdpr"
 ```
+Run gap-analysis on policies/data-privacy.md against the GDPR framework
+Run compliance-check on policies/access-control.md against SOC2
+Use the policy-scanner tool to scan all policies
+Run the policy-update-flow workflow on policies/data-privacy.md
+Draft updates to fix the CRITICAL GDPR gaps in policies/data-privacy.md
+Review policies/data-privacy.md for cross-policy consistency
+Generate an audit report for the last policy update
+```
+
+---
+
+## Project Structure
+
+```
+redline/
+├── agent.yaml                  # Root agent (gitagent spec v0.1.0)
+├── SOUL.md                     # Agent identity and values
+├── RULES.md                    # Operational constraints
+├── DUTIES.md                   # SOD assignments and conflict matrix
+├── AGENTS.md                   # Sub-agent definitions
+├── skills/                     # Five specialized skills
+│   ├── gap-analysis/
+│   ├── compliance-check/
+│   ├── draft-policy/
+│   ├── review-policy/
+│   └── audit-report/
+├── agents/                     # Four sub-agents (SOD enforced)
+│   ├── drafter/                # Maker
+│   ├── reviewer/               # Checker
+│   ├── compliance-checker/     # Executor
+│   └── auditor/                # Auditor
+├── tools/
+│   └── policy-scanner.js       # Scans all policies, produces summary table
+├── hooks/
+│   ├── load-policies.js        # on_session_start: loads active policies
+│   ├── validate-metadata.js    # pre_tool_use: validates metadata headers
+│   └── log-error.js            # on_error: appends to audit log
+├── policies/                   # Live policy documents
+│   ├── data-privacy.md         # GDPR-relevant (v1.3)
+│   ├── access-control.md       # SOC2-relevant (v1.6)
+│   └── acceptable-use.md       # SOC2-relevant (v2.1)
+├── knowledge/
+│   ├── frameworks/gdpr/        # 22-item GDPR checklist + requirements
+│   ├── frameworks/soc2/        # 34-item SOC2 checklist + requirements
+│   └── templates/              # Reference policy templates
+├── workflows/
+│   └── policy-update-flow.yaml # End-to-end 4-agent workflow
+├── compliance/                 # Risk assessment and regulatory mapping
+├── memory/                     # Append-only audit log (MEMORY.md)
+└── config/                     # Default configuration
+```
+
+---
 
 ## Tech Stack
 
-| Component | Choice |
-|-----------|--------|
-| Agent spec | [gitagent v0.1.0](https://github.com/open-gitagent/gitagent) |
-| Runtime (CLI) | [gitclaw](https://github.com/open-gitagent/gitclaw) |
+| Component | Purpose |
+|---|---|
+| [gitagent](https://github.com/open-gitagent/gitagent) | Agent specification format (v0.1.0) |
+| [gitclaw](https://github.com/open-gitagent/gitclaw) | Local CLI runtime |
+| [clawless](https://play.clawless.io) | Browser runtime (WebContainer/WASM, zero install) |
+| Google Gemini 2.5 Flash | LLM (free tier) |
+| Node.js | Hooks and tools (WebContainer compatible) |
+| git | Source of truth for all policies |
 | Runtime (browser) | [clawless](https://play.clawless.io) via WebContainers |
 | Model | Google Gemini 2.5 Flash (free tier) |
 | Hooks & Tools | Node.js only — WebContainer compatible |

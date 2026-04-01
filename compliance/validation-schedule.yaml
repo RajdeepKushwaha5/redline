@@ -16,7 +16,7 @@ schedule:
       last_validated: "2026-04-01"
 
     acceptable-use:
-      frequency: semi-annually
+      frequency: quarterly
       frameworks: [soc2]
       priority: high
       last_validated: "2026-04-01"

@@ -1,8 +1,8 @@
 # Data Privacy Policy
 
-**Version:** 1.2
+**Version:** 1.3
 **Effective Date:** March 15, 2024
-**Last Reviewed:** March 15, 2024
+**Last Reviewed:** April 1, 2026
 **Owner:** Legal Department
 **Approved By:** General Counsel
 
@@ -48,7 +48,19 @@ Where we rely on consent as a lawful basis, consent is obtained before data coll
 
 ## 7. Data Retention
 
-Personal data is retained for as long as necessary to fulfill the purposes for which it was collected, or as required by applicable law. When data is no longer needed, it will be securely disposed of.
+Personal data is retained only as long as necessary for the purpose for which it was collected. The following retention schedule applies:
+
+| Data Category | Retention Period | Justification |
+|---|---|---|
+| Employee personal data (active) | Duration of employment + 7 years | Tax and labor law compliance |
+| Employee personal data (terminated) | 7 years from termination date | Employment records, legal holds |
+| Customer account data | 7 years from last transaction | Financial regulations, fraud prevention |
+| Support and inquiry records | 3 years from resolution | Customer service history, legal defense |
+| Marketing contact data | Until consent withdrawn or 2 years of inactivity | GDPR lawful basis verification |
+| Security and access logs | 1 year | Incident investigation |
+| Audit logs | 7 years | Regulatory compliance |
+
+When a retention period expires, data will be securely deleted or anonymized. Retention periods are reviewed annually by the Legal Department.
 
 ## 8. Data Security
 

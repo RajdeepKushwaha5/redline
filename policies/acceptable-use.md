@@ -1,8 +1,8 @@
 # Acceptable Use Policy
 
-**Version:** 2.0
+**Version:** 2.1
 **Effective Date:** January 10, 2024
-**Last Reviewed:** January 10, 2024
+**Last Reviewed:** April 1, 2026
 **Owner:** IT Department
 **Approved By:** CTO
 
@@ -30,9 +30,10 @@ This policy applies to all employees, contractors, and temporary staff who use A
 - Unauthorized software must not be installed
 
 ### 4.2 Personal Devices
-- **Personal devices must not be used to access company systems or data under any circumstances**
-- Company data must not be stored on personal devices
-- Exceptions require written approval from the CISO
+- Personal devices may be used to access company systems only with written approval from the employee's manager **and** the CISO
+- MDM (Mobile Device Management) enrollment is required before personal device access is granted
+- Company data must not be stored on personal devices outside of IT-approved applications
+- Personal devices used for company access are subject to remote wipe in the event of loss, theft, or termination
 
 ## 5. Internet and Email
 
