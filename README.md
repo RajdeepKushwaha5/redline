@@ -10,7 +10,7 @@
 [![CI](https://github.com/RajdeepKushwaha5/redline/actions/workflows/validate.yml/badge.svg)](https://github.com/RajdeepKushwaha5/redline/actions/workflows/validate.yml)
 [![license](https://img.shields.io/badge/license-MIT-lightgrey)](#)
 
-> ⚠️ **Why is the CI badge red?** The code is perfectly fine — we just burned through our GitHub Codespaces hours building this agent at 3 AM and GitHub decided to freeze our Actions as a thank-you. A compliance tool that got flagged for overusing dev resources. We've become the policy violation. Run `npm run validate` locally and watch everything pass. 🫠
+> ⚠️ **Why is the CI badge red?** The code is fine — GitHub locked our Actions because we spent our budget building the agent instead of paying the bill. The irony of a compliance tool failing a payment compliance check is not lost on us. Run `npm run validate` locally and watch it pass with flying colors. 🫠
 
 *Built for the [gitagent hackathon](https://github.com/open-gitagent/gitagent) — defined with [gitagent](https://github.com/open-gitagent/gitagent), powered by [gitclaw](https://github.com/open-gitagent/gitclaw), deployable in-browser via [clawless](https://play.clawless.io).*
 
