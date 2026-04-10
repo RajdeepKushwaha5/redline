@@ -81,9 +81,49 @@ compliance:
     consent_required: false
     bias_testing: false
 
-  # NOTE: segregation_of_duties is defined in DUTIES.md (canonical source)
-  # and enforced by gitclaw at runtime. The gitagent schema v0.1.7 does not
-  # yet include SOD in the compliance_config schema, though the spec docs do.
+  # Segregation of duties — defined in DUTIES.md (canonical source)
+  # and enforced by gitclaw at runtime. The complete SOD policy below
+  # follows the spec but is commented out because gitagent v0.1.7
+  # schema does not yet include segregation_of_duties validation.
+  #
+  # segregation_of_duties:
+  #   roles:
+  #     - id: maker
+  #       description: Creates and modifies policy content
+  #       permissions: [create, submit]
+  #     - id: checker
+  #       description: Reviews and approves/rejects policy drafts
+  #       permissions: [review, approve, reject]
+  #     - id: executor
+  #       description: Validates policies against regulatory checklists
+  #       permissions: [execute, validate, certify]
+  #     - id: auditor
+  #       description: Creates immutable audit records for all actions
+  #       permissions: [audit, report]
+  #   conflicts:
+  #     - [maker, checker]
+  #     - [maker, auditor]
+  #     - [executor, maker]
+  #     - [executor, auditor]
+  #   assignments:
+  #     drafter: [maker]
+  #     reviewer: [checker]
+  #     compliance-checker: [executor]
+  #     auditor: [auditor]
+  #   isolation:
+  #     state: full
+  #     credentials: separate
+  #   handoffs:
+  #     - action: policy_update
+  #       required_roles: [maker, checker, executor, auditor]
+  #       approval_required: true
+  #     - action: compliance_certification
+  #       required_roles: [executor, auditor]
+  #       approval_required: true
+  #     - action: policy_retirement
+  #       required_roles: [maker, checker, auditor]
+  #       approval_required: true
+  #   enforcement: strict
 
 tags:
   - compliance

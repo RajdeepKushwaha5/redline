@@ -9,11 +9,6 @@ metadata:
   category: compliance
   risk_tier: high
   regulatory_frameworks: gdpr,soc2
-confidence: 1
-usage_count: 1
-success_count: 1
-failure_count: 0
-negative_examples: []
 ---
 
 # Gap Analysis

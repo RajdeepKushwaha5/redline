@@ -7,26 +7,36 @@ regulatory_map:
   data-privacy:
     frameworks:
       - id: gdpr
-        requirements: [R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12]
+        requirements: [G01, G02, G03, G04, G05, G06, G07, G08, G09, G10, G11, G12, G13, G14, G15, G16, G17, G18, G19, G20, G21, G22]
         checklist: knowledge/frameworks/gdpr/checklist.md
       - id: soc2
-        requirements: [CC6, CC7]
+        requirements: [P01, P02, P03, P04, P05]
         checklist: knowledge/frameworks/soc2/checklist.md
         sections: [Privacy]
 
   acceptable-use:
     frameworks:
       - id: soc2
-        requirements: [CC1, CC2, CC6]
+        requirements: [S01, S02, S03, S04, S06, S11]
         checklist: knowledge/frameworks/soc2/checklist.md
         sections: [Security]
 
   access-control:
     frameworks:
       - id: soc2
-        requirements: [CC5, CC6, CC7, CC8]
+        requirements: [S10, S11, S12, S13, S14, S15, S16, S23]
         checklist: knowledge/frameworks/soc2/checklist.md
         sections: [Security, Confidentiality]
       - id: gdpr
-        requirements: [R8, R9]
+        requirements: [G08, G09]
+        checklist: knowledge/frameworks/gdpr/checklist.md
+
+  incident-response:
+    frameworks:
+      - id: soc2
+        requirements: [S17, S18, S19, S20, S21, S22]
+        checklist: knowledge/frameworks/soc2/checklist.md
+        sections: [Security]
+      - id: gdpr
+        requirements: [G13, G14]
         checklist: knowledge/frameworks/gdpr/checklist.md

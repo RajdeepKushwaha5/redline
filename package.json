@@ -1,17 +1,20 @@
 {
   "name": "redline",
   "version": "0.1.0",
-  "main": "index.js",
+  "description": "AI-powered policy governance agent — compliance as code with SOD enforcement",
   "scripts": {
     "start": "gitclaw",
     "test": "gitclaw -p \"Run a gap analysis on policies/data-privacy.md against GDPR requirements\"",
     "scan": "gitclaw -p \"Use the policy-scanner tool to scan all policies in the policies/ directory\"",
-    "workflow": "gitclaw -p \"Run the policy-update-flow workflow on policies/access-control.md\""
+    "workflow": "gitclaw -p \"Run the policy-update-flow workflow on policies/access-control.md\"",
+    "validate": "npx gitagent validate --compliance --dir ."
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "keywords": ["gitagent", "compliance", "gdpr", "soc2", "policy-as-code", "segregation-of-duties"],
+  "author": "RajdeepKushwaha5",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
   "devDependencies": {
     "@open-gitagent/gitagent": "^0.1.7",
     "gitclaw": "^1.1.8"

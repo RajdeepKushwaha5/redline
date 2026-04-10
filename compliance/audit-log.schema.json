@@ -1,0 +1,103 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Redline Audit Log Entry",
+  "description": "Schema for structured audit log entries appended to memory/MEMORY.md",
+  "type": "object",
+  "required": [
+    "sequence",
+    "timestamp",
+    "action",
+    "agent",
+    "sod_role",
+    "policy",
+    "outcome",
+    "sod_verified"
+  ],
+  "properties": {
+    "sequence": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Sequential audit record identifier"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 UTC timestamp of the action"
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "gap_analysis",
+        "policy_update",
+        "policy_review",
+        "compliance_certification",
+        "policy_retirement",
+        "error"
+      ],
+      "description": "Type of action performed"
+    },
+    "agent": {
+      "type": "string",
+      "enum": ["drafter", "reviewer", "compliance-checker", "auditor"],
+      "description": "Agent that performed the action"
+    },
+    "sod_role": {
+      "type": "string",
+      "enum": ["maker", "checker", "executor", "auditor"],
+      "description": "Segregation of duties role of the acting agent"
+    },
+    "policy": {
+      "type": "string",
+      "pattern": "^policies/.*\\.md$",
+      "description": "Path to the affected policy file"
+    },
+    "framework": {
+      "type": "string",
+      "enum": ["gdpr", "soc2"],
+      "description": "Regulatory framework involved"
+    },
+    "outcome": {
+      "type": "string",
+      "description": "Result summary of the action"
+    },
+    "sod_verified": {
+      "type": "boolean",
+      "description": "Whether SOD constraints were verified and respected"
+    },
+    "chain_of_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["step", "agent", "role", "action", "result"],
+        "properties": {
+          "step": { "type": "integer" },
+          "agent": { "type": "string" },
+          "role": { "type": "string" },
+          "action": { "type": "string" },
+          "result": { "type": "string" }
+        }
+      },
+      "description": "Ordered chain of agent actions in the workflow"
+    },
+    "evidence": {
+      "type": "object",
+      "properties": {
+        "gap_analysis": { "type": "string" },
+        "draft_changes": { "type": "string" },
+        "review_decision": { "type": "string" },
+        "compliance_scorecard": { "type": "string" },
+        "git_commits": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "description": "References to supporting evidence"
+    },
+    "sod_violations": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Any SOD violations detected (empty if none)"
+    }
+  },
+  "additionalProperties": false
+}

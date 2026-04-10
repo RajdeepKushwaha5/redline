@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // policy-scanner.js — Custom tool
-// Scans policy files and produces a markdown summary table.
+// Scans policy files and produces a JSON report with markdown summary table.
 
 const fs = require('fs');
 const path = require('path');
@@ -18,16 +18,18 @@ process.stdin.on('end', () => {
   }
 
   if (!fs.existsSync(dir)) {
-    process.stderr.write(`Error: directory "${dir}" not found\n`);
+    const error = { report: `Error: directory "${dir}" not found`, policy_count: 0, issues_found: 0 };
+    process.stdout.write(JSON.stringify(error));
     process.exit(1);
   }
 
   const files = fs.readdirSync(dir).filter(f => f.endsWith('.md'));
 
-  console.log('# Policy Scan Report');
-  console.log('');
-  console.log('| Policy | Version | Owner | Last Reviewed | Issues |');
-  console.log('|--------|---------|-------|---------------|--------|');
+  let report = '# Policy Scan Report\n\n';
+  report += '| Policy | Version | Owner | Last Reviewed | Issues |\n';
+  report += '|--------|---------|-------|---------------|--------|\n';
+
+  let totalIssues = 0;
 
   for (const filename of files) {
     const filepath = path.join(dir, filename);
@@ -49,7 +51,16 @@ process.stdin.on('end', () => {
     if (!content.includes('Scope')) issues++;
     if (!content.includes('Policy Review')) issues++;
 
+    totalIssues += issues;
     const issueCell = issues > 0 ? `⚠️ ${issues}` : '✅ None';
-    console.log(`| ${name} | ${version} | ${owner} | ${reviewed} | ${issueCell} |`);
+    report += `| ${name} | ${version} | ${owner} | ${reviewed} | ${issueCell} |\n`;
   }
+
+  const output = {
+    report: report,
+    policy_count: files.length,
+    issues_found: totalIssues
+  };
+
+  process.stdout.write(JSON.stringify(output));
 });

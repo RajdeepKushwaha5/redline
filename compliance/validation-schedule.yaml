@@ -27,6 +27,12 @@ schedule:
       priority: critical
       last_validated: "2026-04-01"
 
+    incident-response:
+      frequency: quarterly
+      frameworks: [soc2, gdpr]
+      priority: critical
+      last_validated: "2026-04-01"
+
   triggers:
     - event: regulation_update
       action: immediate_revalidation

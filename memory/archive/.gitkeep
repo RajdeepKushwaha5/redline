@@ -1,0 +1,5 @@
+# Memory Archive
+
+> Historical snapshots of audit log entries are archived here.
+> Archive rotation: monthly. Compression after 90 days.
+> See memory.yaml for configuration.

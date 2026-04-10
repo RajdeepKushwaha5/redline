@@ -8,13 +8,17 @@ on:
       - 'agent.yaml'
       - 'skills/**'
       - 'knowledge/**'
+      - 'tools/**'
+      - 'hooks/**'
+      - 'agents/**'
+      - 'workflows/**'
+      - 'compliance/**'
+      - 'SOUL.md'
+      - 'RULES.md'
+      - 'DUTIES.md'
+      - 'AGENTS.md'
   pull_request:
     branches: [main]
-    paths:
-      - 'policies/**'
-      - 'agent.yaml'
-      - 'skills/**'
-      - 'knowledge/**'
 
 jobs:
   validate-agent:
@@ -51,8 +55,14 @@ jobs:
           echo "Checking policy version headers..."
           MISSING=0
           for f in policies/*.md; do
-            if ! grep -q "^## Version\|^version:\|^Version:" "$f"; then
-              echo "❌ Missing version header: $f"
+            ERRORS=""
+            for field in "Version:" "Effective Date:" "Owner:" "Approved By:"; do
+              if ! grep -q "$field" "$f"; then
+                ERRORS="$ERRORS $field"
+              fi
+            done
+            if [ -n "$ERRORS" ]; then
+              echo "❌ $f missing:$ERRORS"
               MISSING=$((MISSING+1))
             else
               echo "✅ $f"
@@ -60,11 +70,11 @@ jobs:
           done
           if [ $MISSING -gt 0 ]; then
             echo ""
-            echo "ERROR: $MISSING policy file(s) missing version metadata."
+            echo "ERROR: $MISSING policy file(s) with incomplete metadata."
             exit 1
           fi
           echo ""
-          echo "All policies have version headers."
+          echo "All policies have required metadata headers."
 
       - name: Check knowledge framework checklists exist
         run: |
@@ -81,4 +91,17 @@ jobs:
               exit 1
             fi
             echo "✅ $FRAMEWORK: checklist + requirements present"
+          done
+
+      - name: Run policy-scanner tool
+        run: echo '{}' | node tools/policy-scanner.js
+
+      - name: Validate hook scripts exist
+        run: |
+          for hook in hooks/load-policies.js hooks/validate-metadata.js hooks/log-error.js; do
+            if [ ! -f "$hook" ]; then
+              echo "❌ Missing hook: $hook"
+              exit 1
+            fi
+            echo "✅ $hook exists"
           done

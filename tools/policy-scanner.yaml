@@ -5,6 +5,7 @@
 
 name: policy-scanner
 description: "Scans all policy files in the policies/ directory and produces a summary report including metadata status, last modified dates, and detected issues."
+version: 1.0.0
 
 input_schema:
   type: object
@@ -14,7 +15,26 @@ input_schema:
       description: "Directory to scan for policy files (default: policies/)"
   required: []
 
+output_schema:
+  type: object
+  properties:
+    report:
+      type: string
+      description: "Markdown-formatted policy scan report with metadata status table"
+    policy_count:
+      type: integer
+      description: "Number of policies scanned"
+    issues_found:
+      type: integer
+      description: "Total number of issues detected across all policies"
+
 implementation:
   type: script
   runtime: node
   path: policy-scanner.js
+  timeout: 30
+
+annotations:
+  requires_confirmation: false
+  read_only: true
+  cost: low
