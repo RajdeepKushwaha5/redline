@@ -1,6 +1,6 @@
 <div align="center">
 
-# redline
+# redline - Winner of [GitAgent Hackathon](https://hackculture.io/hackathons/gitagent-hackathon)
 
 **AI-powered policy governance — where every compliance gap becomes a git diff.**
 
